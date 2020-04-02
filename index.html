@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>index</title>
+</head>
+<body>
+	<p>Count numbers: <output id="result"></output></p>
+	<button onclick="startWorker()">Start Worker</button>
+	<button onclick="stopWorker()">Stop Worker</button>
+	<script type="text/javascript">
+		/**
+		if (WebSocket) {
+			var ws = new WebSocket('ws://localhost:8080/web');
+			ws.onopen = function(evt) { 
+			  console.log("Connection open ..."); 
+			  ws.send("Hello");
+			};
+
+			ws.onmessage = function(evt) {
+			  console.log( "Received Message: " + evt.data);
+			};
+
+			ws.onclose = function(evt) {
+			  console.log("Connection closed.");
+			};  
+			ws.onerror = function(error) {
+				console.error("Error:", error);
+			}  
+		}
+		*/
+		// var w;
+
+		// function startWorker()
+		// {
+		// 	if(typeof(Worker)!=="undefined")
+		// 	{
+		// 	  if(typeof(w)=="undefined")
+		// 	    {
+		// 	    	w=new Worker("demo_workers.js");
+		// 	    }
+		// 		w.onmessage = function (event) {
+
+		// 			console.log(event.data);
+		
+		// 		};
+		// 	}
+		// 	else
+		// 	{
+		// 		document.getElementById("result").innerHTML="Sorry, your browser does not support Web Workers...";
+		// 	}
+		// }
+
+		// function stopWorker()
+		// {
+		// 	w.terminate();
+		// }
+
+		var str = "aaaaf108fffffc4effff57959caaaaf108fffffc4effff52429caaaaf108fffffc4effff59229caaaaf108fffffc4effff51229c";
+	    // var substr = str.match(/aaaaf108(\S*)aaaaf108/);
+	    // console.log(substr);
+	    var result = str.replace(/aaaaf108/g,'');
+	    console.log(result);
+	    var len = result.length/8;
+	    var offset = 0;
+	    for (var i = 1; i < len; i++) {
+    	  	if (i%2==0) {
+				offset += 2;
+				continue;
+	    	}
+	    	// if (true) {}
+	    	console.log(i, result.substr(i*8+offset,8));
+	    }
+	</script>
+</body>
+</html>
