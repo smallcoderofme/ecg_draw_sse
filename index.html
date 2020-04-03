@@ -5,10 +5,36 @@
 	<title>index</title>
 </head>
 <body>
-	<p>Count numbers: <output id="result"></output></p>
-	<button onclick="startWorker()">Start Worker</button>
-	<button onclick="stopWorker()">Stop Worker</button>
+	<button onclick="openDB();">open</button>
+	<button onclick="addData();">add</button>
+	<button onclick="getData();">get</button>
+	<button onclick="getAll();">getAll</button>
+	<button onclick="removeData();">remove</button>
+	<button onclick="clearAll();">clearAll</button>
+	<button onclick="closeDB();">close</button>
+	<script type="text/javascript" src="exp-result-storage.js"></script>
 	<script type="text/javascript">
+		function openDB() {
+			if(!resultDB.db) { resultDB.open(); };
+		}
+		function getAll() {
+			resultDB.readAll();
+		}
+		function addData() {
+			resultDB.save({name:"实验名称", date: new Date(), data: [1,2,3,4,5,6,7,8,9,10,11,12]});
+		}
+		function getData() {
+			resultDB.read(1);
+		}
+		function removeData() {
+			resultDB.remove(3);// 3 是数据库记录key主键，当前默认的主键是一个递增的整数。
+		}
+		function clearAll() {
+			resultDB.clearAll();
+		}
+		function closeDB() {
+			resultDB.close();
+		}
 		/**
 		if (WebSocket) {
 			var ws = new WebSocket('ws://localhost:8080/web');
@@ -56,21 +82,49 @@
 		// 	w.terminate();
 		// }
 
-		var str = "aaaaf108fffffc4effff57959caaaaf108fffffc4effff52429caaaaf108fffffc4effff59229caaaaf108fffffc4effff51229c";
-	    // var substr = str.match(/aaaaf108(\S*)aaaaf108/);
-	    // console.log(substr);
-	    var result = str.replace(/aaaaf108/g,'');
-	    console.log(result);
-	    var len = result.length/8;
-	    var offset = 0;
-	    for (var i = 1; i < len; i++) {
-    	  	if (i%2==0) {
-				offset += 2;
-				continue;
-	    	}
-	    	// if (true) {}
-	    	console.log(i, result.substr(i*8+offset,8));
-	    }
+		// var str = "aaaaf108fffffc4effff57959caaaaf108fffffc4effff52429caaaaf108fffffc4effff59229caaaaf108fffffc4effff51229c";
+	 //    // var substr = str.match(/aaaaf108(\S*)aaaaf108/);
+	 //    // console.log(substr);
+	 //    var result = str.replace(/aaaaf108/g,'');
+	 //    console.log(result);
+	 //    var len = result.length/8;
+	 //    var offset = 0;
+	 //    for (var i = 1; i < len; i++) {
+  //   	  	if (i%2==0) {
+		// 		offset += 2;
+		// 		continue;
+	 //    	}
+	 //    	// if (true) {}
+	 //    	console.log(i, result.substr(i*8+offset,8));
+	 //    }
+
+		// var myFile = blobToFile(blob, "data.json");
+
+		// var funDownload = function (content, filename, option = { type:"application/json"}) {
+		//     // 创建隐藏的可下载链接
+		//     var eleLink = document.createElement('a');
+		//     eleLink.innerHTML = "download";
+		//     eleLink.download = filename;
+		//     // eleLink.style.display = 'none';
+		//     // 字符内容转变成blob地址
+		//     var blob = new Blob([content], option);
+		//     console.log(blob);
+		    
+		//     // eleLink.href = URL.createObjectURL(blob);
+		//     // 触发点击
+		//     document.body.appendChild(eleLink);
+		//     // eleLink.click();
+		//     // 然后移除
+		//     // document.body.removeChild(eleLink);
+		// };
+		// function blobToFile(theBlob, fileName){
+		//     //A Blob() is almost a File() - it's just missing the two properties below which we will add
+		//     theBlob.lastModifiedDate = new Date();
+		//     theBlob.name = fileName;
+		//     return theBlob;
+		// }
+		// var res = {label:"yao", data: [1,2,3,4,5,6]};
+		// funDownload(JSON.stringify(res), "data");
 	</script>
 </body>
 </html>
