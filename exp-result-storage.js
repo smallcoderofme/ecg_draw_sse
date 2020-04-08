@@ -79,16 +79,17 @@ window.resultDB = (function(){
 				console.info("数据库未打开");
 			}
 		  	var objectStore = resDB.db.transaction('exp_ecg').objectStore('exp_ecg');
-
+		  	var allData = [];
 		   	objectStore.openCursor().onsuccess = function (event) {
 			    var cursor = event.target.result;
 			    if (cursor) {
-			       	console.log('Key: ' + cursor.key);
-			       	console.log('Name: ' + JSON.stringify(cursor.value));
+			       	// console.log('Key: ' + cursor.key);
+			       	// console.log('Name: ' + JSON.stringify(cursor.value));
+			       	allData.push(JSON.stringify(cursor.value));
 			       	cursor.continue();
 			    } else {
 			      	console.log('已经没有数据了');
-			      	if(complete) complete();
+			      	if(complete) complete(allData);
 			    }
 		  	};
 		}

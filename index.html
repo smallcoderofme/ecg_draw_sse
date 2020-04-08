@@ -3,6 +3,34 @@
 <head>
 	<meta charset="utf-8">
 	<title>index</title>
+	<style type="text/css">
+		button {
+			padding: 0.2rem 0.4rem;
+		}
+		a {
+			text-decoration: none;
+		}
+		div {
+		    margin-bottom: 10px;
+		    display: flex;
+		    align-items: center;
+		}
+
+		label {
+		  display: inline-block;
+		  width: 300px;
+		}
+
+		input:invalid+span:after {
+		    content: '✖';
+		    padding-left: 5px;
+		}
+
+		input:valid+span:after {
+		    content: '✓';
+		    padding-left: 5px;
+		}
+	</style>
 </head>
 <body>
 	<button onclick="openDB();">open</button>
@@ -12,13 +40,28 @@
 	<button onclick="removeData();">remove</button>
 	<button onclick="clearAll();">clearAll</button>
 	<button onclick="closeDB();">close</button>
+<!-- 	<form>
+	  <div>
+	    <label for="party">Choose your preferred party date (required, April 1st to 20th):</label>
+	    <input type="date" id="party" name="party" min="2017-04-01" max="2017-04-20" required onchange="datePicker();">
+	    <span class="validity"></span>
+	  </div>
+	  <div>
+	    <input type="submit">
+	  </div>
+	</form> -->
 	<script type="text/javascript" src="exp-result-storage.js"></script>
 	<script type="text/javascript">
+		function datePicker(e) {
+			console.log(e);
+		}
 		function openDB() {
 			if(!resultDB.db) { resultDB.open(); };
 		}
 		function getAll() {
-			resultDB.readAll();
+			resultDB.readAll(function(result) {
+				console.log(result);
+			});
 		}
 		function addData() {
 			resultDB.save({name:"实验名称", date: new Date(), data: [1,2,3,4,5,6,7,8,9,10,11,12]});
@@ -100,31 +143,31 @@
 
 		// var myFile = blobToFile(blob, "data.json");
 
-		// var funDownload = function (content, filename, option = { type:"application/json"}) {
-		//     // 创建隐藏的可下载链接
-		//     var eleLink = document.createElement('a');
-		//     eleLink.innerHTML = "download";
-		//     eleLink.download = filename;
-		//     // eleLink.style.display = 'none';
-		//     // 字符内容转变成blob地址
-		//     var blob = new Blob([content], option);
-		//     console.log(blob);
+		var funDownload = function (content, filename, option = { type:"application/json"}) {
+		    // 创建隐藏的可下载链接
+		    var eleLink = document.createElement('a');
+		    eleLink.innerHTML = "download";
+		    eleLink.download = filename;
+		    // eleLink.style.display = 'none';
+		    // 字符内容转变成blob地址
+		    var blob = new Blob([content], option);
+		    console.log(blob);
 		    
-		//     // eleLink.href = URL.createObjectURL(blob);
-		//     // 触发点击
-		//     document.body.appendChild(eleLink);
-		//     // eleLink.click();
-		//     // 然后移除
-		//     // document.body.removeChild(eleLink);
-		// };
-		// function blobToFile(theBlob, fileName){
-		//     //A Blob() is almost a File() - it's just missing the two properties below which we will add
-		//     theBlob.lastModifiedDate = new Date();
-		//     theBlob.name = fileName;
-		//     return theBlob;
-		// }
-		// var res = {label:"yao", data: [1,2,3,4,5,6]};
-		// funDownload(JSON.stringify(res), "data");
+		    eleLink.href = URL.createObjectURL(blob);
+		    // 触发点击
+		    document.body.appendChild(eleLink);
+		    // eleLink.click();
+		    // 然后移除
+		    // document.body.removeChild(eleLink);
+		};
+		function blobToFile(theBlob, fileName){
+		    //A Blob() is almost a File() - it's just missing the two properties below which we will add
+		    theBlob.lastModifiedDate = new Date();
+		    theBlob.name = fileName;
+		    return theBlob;
+		}
+		var res = {label:"yao", data: [1,2,3,4,5,6]};
+		funDownload(JSON.stringify(res), "data");
 	</script>
 </body>
 </html>
