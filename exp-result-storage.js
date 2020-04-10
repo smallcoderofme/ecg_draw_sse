@@ -58,7 +58,7 @@ window.resultDB = (function(){
 
 		   	var transaction = resDB.db.transaction(['exp_ecg']);
 		   	var objectStore = transaction.objectStore('exp_ecg');
-		   	var request = objectStore.get(1);
+		   	var request = objectStore.get(key);
 
 		   	request.onerror = function(event) {
 		    	console.error('读取失败', event);
@@ -76,7 +76,8 @@ window.resultDB = (function(){
 		}
 		function readAll(complete) {
 			if (!resDB.db) {
-				console.info("数据库未打开");
+				console.warn("数据库未打开");
+				return;
 			}
 		  	var objectStore = resDB.db.transaction('exp_ecg').objectStore('exp_ecg');
 		  	var allData = [];
@@ -85,7 +86,7 @@ window.resultDB = (function(){
 			    if (cursor) {
 			       	// console.log('Key: ' + cursor.key);
 			       	// console.log('Name: ' + JSON.stringify(cursor.value));
-			       	allData.push(JSON.stringify(cursor.value));
+			       	allData.push(cursor.value);
 			       	cursor.continue();
 			    } else {
 			      	console.log('已经没有数据了');
