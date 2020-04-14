@@ -103,7 +103,21 @@ http.createServer((req, res) => {
       req.on('end', () => {
         let result = JSON.parse(newData);
         console.log("POST: ", result.selected);
-        res.end(JSON.stringify({"status": "ok"}));
+        if (exist(result.selected)) {
+          res.end(JSON.stringify({"status": "ok"}));
+        } else {
+          res.end(JSON.stringify({"status": "error", "message":"所选的串口不存在。"}));
+        }
+        
       })
   }
 }).listen(8844, "127.0.0.1");
+
+function exist(selectedPort) {
+   for (let port of port_list) {
+     if (port === selectedPort) {
+       return true;
+     }
+   }
+   return false;
+}
