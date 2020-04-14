@@ -10,8 +10,11 @@
   "license": "ISC",
   "dependencies": {
     "crypto-js": "^4.0.0",
-    "js-sha256": "^0.9.0",
-    "serialport": "^8.0.5",
-    "ws": "^7.2.3"
+    "serialport": "^8.0.5"
+  },
+  "bin": "install.js",//入口文件
+  "pkg": {
+      "scripts": [],
+      "assets": []
   }
 }
