@@ -64,7 +64,7 @@ http.createServer((req, res) => {
         continue;
       }
      var currD = toInt32(currR);
-     // if (arr.length < 10000) {
+     // if (arr.length < 50000) {
      //   arr.push(currD);
      // } else {
      //    var fs = require('fs');
@@ -79,7 +79,7 @@ http.createServer((req, res) => {
      //    console.log();
      //    callback.write("data: " + currD + "\n\n", 'utf8');
      // }
-       res.write("data: " + currD + "\n\n", 'utf8');
+       // res.write("data: " + currD + "\n\n", 'utf8');
     }
     // loop = false;
   });
