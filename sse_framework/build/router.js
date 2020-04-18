@@ -6,4 +6,3 @@ var Router = /** @class */ (function () {
     return Router;
 }());
 exports.Router = Router;
-//# sourceMappingURL=router.js.map

@@ -41,13 +41,15 @@ var TinyServer;
         SSE.prototype.init = function () {
             var _this = this;
             this._http = http.createServer(function (req, res) {
-                tiny_middle_ware_1.tinyMiddleware.ServerSideEvent(res);
-                _this.listener(req);
-                _this.reconnecting(req, res);
-                var connector = { connectorId: uuid_1.v4(), online: true, reqHandler: req, resHandler: res };
-                _this.connectorPool.set(connector.connectorId, connector);
-                //test
-                _this.send(connector.connectorId, { status: "ok", message: "success", commandId: "1000", data: "hello" });
+                switch (req.url) {
+                    case "/stream":
+                        tiny_middle_ware_1.tinyMiddleware.ServerSideEvent(res);
+                        _this.listener(req);
+                        _this.reconnecting(req, res);
+                        var connector = { connectorId: uuid_1.v4(), online: true, reqHandler: req, resHandler: res };
+                        _this.connectorPool.set(connector.connectorId, connector);
+                        break;
+                }
             }).listen(8844, "127.0.0.1", function () {
                 console.log("start listening http://127.0.0.1:8844 ...");
             });
@@ -136,4 +138,3 @@ var TinyServer;
     }());
     TinyServer.SSE = SSE;
 })(TinyServer = exports.TinyServer || (exports.TinyServer = {}));
-//# sourceMappingURL=tiny.server.js.map

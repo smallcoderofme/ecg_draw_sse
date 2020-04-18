@@ -8,4 +8,3 @@ setInterval(function () {
     counter++;
     server.broadcast({ status: "ok", message: "echo", commandId: counter.toString(), data: Date.now() });
 }, 1000);
-//# sourceMappingURL=main.js.map

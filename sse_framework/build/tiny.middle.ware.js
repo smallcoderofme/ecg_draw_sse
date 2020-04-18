@@ -13,4 +13,3 @@ var tinyMiddleware;
     }
     tinyMiddleware.ServerSideEvent = ServerSideEvent;
 })(tinyMiddleware = exports.tinyMiddleware || (exports.tinyMiddleware = {}));
-//# sourceMappingURL=tiny.middle.ware.js.map
