@@ -42,16 +42,17 @@ export namespace TinyServer {
 
         private init() {
             this._http = http.createServer((req: http.IncomingMessage, res: http.ServerResponse) => {
-                tinyMiddleware.ServerSideEvent( res );
+                switch (req.url) {
+                    case "/stream":
+                        tinyMiddleware.ServerSideEvent( res );
 
-                this.listener(req);
-                this.reconnecting(req, res);
-
-                const connector = { connectorId: uuidv4(), online: true, reqHandler: req, resHandler: res };
-                this.connectorPool.set( connector.connectorId, connector );
-
-                //test
-                this.send(connector.connectorId, { status:"ok", message:"success", commandId:"1000", data:"hello" });
+                        this.listener(req);
+                        this.reconnecting(req, res);
+        
+                        const connector = { connectorId: uuidv4(), online: true, reqHandler: req, resHandler: res };
+                        this.connectorPool.set( connector.connectorId, connector );
+                        break;
+                }
 
             }).listen(8844, "127.0.0.1", () => {
                 console.log("start listening http://127.0.0.1:8844 ...");

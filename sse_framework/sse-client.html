@@ -7,7 +7,7 @@
 <body>
 	<script type="text/javascript">
 		if ( window.EventSource) {
-			let url = 'http://127.0.0.1:8844';
+			let url = 'http://127.0.0.1:8844/stream';
 			sse = new EventSource(url);//, { withCredentials: true }
 			sse.onopen = function (event) {
 				console.log('on open');
