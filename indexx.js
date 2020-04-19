@@ -96,6 +96,10 @@ http.createServer((req, res) => {
       });
       res.end(JSON.stringify({list: port_list}), 'utf8');
   } else if(req.method === "POST" && fileName === "./confirm_port") {
+  	  res.writeHead(200, {
+        "Content-Type":"application/json",
+        "Cache-Control":"no-cache"
+      });
       let newData = '';
       req.on('data', chunk => {
         newData+=chunk;

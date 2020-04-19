@@ -1,7 +1,7 @@
 
 import * as http from "http";
 import { v4 as uuidv4 } from "uuid";
-import { tinyMiddleware } from "./tiny.middle.ware";
+import { Routers, ROUTER_TYPE } from "./router";
 import { Socket } from "net";
 
 const WARNNING: boolean = true;
@@ -42,18 +42,42 @@ export namespace TinyServer {
 
         private init() {
             this._http = http.createServer((req: http.IncomingMessage, res: http.ServerResponse) => {
-                switch (req.url) {
-                    case "/stream":
-                        tinyMiddleware.ServerSideEvent( res );
-
-                        this.listener(req);
-                        this.reconnecting(req, res);
-        
-                        const connector = { connectorId: uuidv4(), online: true, reqHandler: req, resHandler: res };
-                        this.connectorPool.set( connector.connectorId, connector );
-                        break;
+                let defind: boolean = false;
+                for ( let router of Routers ) {
+                    if ( req.url === router.path ) {
+                        if ( router.type === ROUTER_TYPE.SSE ) {
+                            /**
+                             * server side event
+                             */
+                            router.middles.forEach(middle => {
+                                middle(res);
+                            });
+                            this.listener(req);
+                            this.reconnecting(req, res);
+            
+                            const connector = { connectorId: uuidv4(), online: true, reqHandler: req, resHandler: res };
+                            this.connectorPool.set( connector.connectorId, connector );
+                        } else {
+                            /**
+                             * http
+                             */
+                            switch (req.method) {
+                                case "GET":
+                                    break;
+                                case "POST":
+                                    this.postBody(req, (data: any) => {
+                                        
+                                    });
+                                    break;
+                            }
+                        }
+                        defind = true;
+                        return;
+                    }
                 }
+                if (!defind) {
 
+                }
             }).listen(8844, "127.0.0.1", () => {
                 console.log("start listening http://127.0.0.1:8844 ...");
             });
@@ -107,6 +131,18 @@ export namespace TinyServer {
             if(connector && connector.online) {
                 connector.resHandler.write("data: " + JSON.stringify(data) + "\n\n", 'utf8')
             }
+        }
+
+        private postBody( req: http.IncomingMessage, callback:Function ) {
+            let body: string = "";
+            let on_data_fun:any = (chunk: string):void => {
+                body += chunk;
+            }
+            req.on("data", on_data_fun);
+            req.once("end", ()=> {
+                req.off("data", on_data_fun);
+                callback(JSON.parse(body));
+            });
         }
     }
 }

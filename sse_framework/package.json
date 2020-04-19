@@ -4,6 +4,7 @@
   "description": "",
   "main": "sse-server.js",
   "scripts": {
+    "start": "node build/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
