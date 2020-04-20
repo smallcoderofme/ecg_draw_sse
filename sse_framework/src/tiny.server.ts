@@ -44,14 +44,21 @@ export namespace TinyServer {
             this._http = http.createServer((req: http.IncomingMessage, res: http.ServerResponse) => {
                 let defind: boolean = false;
                 for ( let router of Routers ) {
+                    /**
+                     * 是否是已经定义的路由
+                     */
                     if ( req.url === router.path ) {
+                        /**
+                         * 使用定义路由自己的中间件
+                         */
+                        router.middles.forEach(middle => {
+                            middle(req, res);
+                        });
+
                         if ( router.type === ROUTER_TYPE.SSE ) {
                             /**
                              * server side event
                              */
-                            router.middles.forEach(middle => {
-                                middle(res);
-                            });
                             this.listener(req);
                             this.reconnecting(req, res);
             
@@ -61,22 +68,14 @@ export namespace TinyServer {
                             /**
                              * http
                              */
-                            switch (req.method) {
-                                case "GET":
-                                    break;
-                                case "POST":
-                                    this.postBody(req, (data: any) => {
-                                        
-                                    });
-                                    break;
-                            }
+                            
                         }
                         defind = true;
                         return;
                     }
                 }
                 if (!defind) {
-
+                    console.error("Current requst router is undefind!");
                 }
             }).listen(8844, "127.0.0.1", () => {
                 console.log("start listening http://127.0.0.1:8844 ...");
