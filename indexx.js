@@ -100,6 +100,10 @@ http.createServer((req, res) => {
         "Content-Type":"application/json",
         "Cache-Control":"no-cache"
       });
+      if (port_list.length === 1) {
+        res.end(JSON.stringify({"status": "ok"}));
+        return;
+      }
       let newData = '';
       req.on('data', chunk => {
         newData+=chunk;
