@@ -131,18 +131,6 @@ export namespace TinyServer {
                 connector.resHandler.write("data: " + JSON.stringify(data) + "\n\n", 'utf8')
             }
         }
-
-        private postBody( req: http.IncomingMessage, callback:Function ) {
-            let body: string = "";
-            let on_data_fun:any = (chunk: string):void => {
-                body += chunk;
-            }
-            req.on("data", on_data_fun);
-            req.once("end", ()=> {
-                req.off("data", on_data_fun);
-                callback(JSON.parse(body));
-            });
-        }
     }
 }
 
