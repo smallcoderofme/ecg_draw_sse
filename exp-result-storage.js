@@ -141,12 +141,32 @@ window.resultDB = (function(){
 			  console.log('success');
 			};
 		}
+		function getItemsCount(complete) {
+		   	var transaction = resDB.db.transaction(['exp_ecg']);
+		   	var objectStore = transaction.objectStore('exp_ecg');
+		   	var request = objectStore.count();
+		   	var count  = 0;
+   		  	request.onsuccess = function (event) {
+		   		// console.log("getItemsCount: ", request.result);
+		   		// if (complete) { complete(request.result); }
+		   		count = request.result;
+		  	};
+
+		  	request.onerror = function (event) {
+		    	console.log('数据更新失败');
+		  	}
+
+		   	objectStore.openCursor().onsuccess = function (event) {
+			    if(complete) { complete(event.target.result.key, count);};
+			}
+		}
 		resDB.open = open;
 		resDB.save = add;
 		resDB.read = read;
 		resDB.readAll = readAll;
 		resDB.remove = remove;
 		resDB.clearAll = clearAll;
+		resDB.getItemsCount = getItemsCount;
 		resDB.close = function() { if(resDB.db) {resDB.db.close(); console.log("关闭数据库");} }
 		return resDB;
 	} else {
