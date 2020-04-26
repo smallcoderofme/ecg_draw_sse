@@ -1,0 +1,4 @@
+{
+    "gate": { "host": "localhost", "port": "8080" },
+    "chat": { "host": "localhost", "port": "8081" }
+}

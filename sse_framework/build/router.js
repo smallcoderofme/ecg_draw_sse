@@ -16,5 +16,6 @@ var Router = /** @class */ (function () {
 }());
 exports.Router = Router;
 exports.Routers = [
-    { path: '/stream', type: ROUTER_TYPE.SSE, middles: [tiny_middle_ware_1.tinyMiddleware.ServerSideEvent] }
+    { path: '/stream', type: ROUTER_TYPE.SSE, middles: [tiny_middle_ware_1.tinyMiddleware.ServerSideEvent] },
+    { path: '/get_data', type: ROUTER_TYPE.HTTP, middles: [tiny_middle_ware_1.tinyMiddleware.HttpJsonResponse] }
 ];

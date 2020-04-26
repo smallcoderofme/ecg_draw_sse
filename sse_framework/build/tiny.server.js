@@ -46,17 +46,29 @@ var TinyServer;
                 try {
                     for (var Routers_1 = __values(router_1.Routers), Routers_1_1 = Routers_1.next(); !Routers_1_1.done; Routers_1_1 = Routers_1.next()) {
                         var router = Routers_1_1.value;
+                        /**
+                         * 是否是已经定义的路由
+                         */
                         if (req.url === router.path) {
+                            /**
+                             * 使用定义路由自己的中间件
+                             */
+                            router.middles.forEach(function (middle) {
+                                middle(req, res);
+                            });
                             if (router.type === router_1.ROUTER_TYPE.SSE) {
-                                router.middles.forEach(function (middle) {
-                                    middle(res);
-                                });
+                                /**
+                                 * server side event
+                                 */
                                 _this.listener(req);
                                 _this.reconnecting(req, res);
                                 var connector = { connectorId: uuid_1.v4(), online: true, reqHandler: req, resHandler: res };
                                 _this.connectorPool.set(connector.connectorId, connector);
                             }
                             else {
+                                /**
+                                 * http
+                                 */
                             }
                             defind = true;
                             return;
@@ -71,6 +83,7 @@ var TinyServer;
                     finally { if (e_1) throw e_1.error; }
                 }
                 if (!defind) {
+                    console.error("Current requst router is undefind!");
                 }
             }).listen(8844, "127.0.0.1", function () {
                 console.log("start listening http://127.0.0.1:8844 ...");
