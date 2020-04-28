@@ -35,13 +35,19 @@ var GateServer = /** @class */ (function (_super) {
     };
     GateServer.prototype.init = function () {
         this._server = new net_1.default.Server(function (socket) {
-            socket.end('goodbye\n');
+            // socket.end('goodbye\n');
             socket.on('data', function (data) {
-                console.log("socket data: ", data.toString());
+                console.log("server socket data: ", data.toString().replace('\n', ''));
             });
         });
         this._server.on('error', function (err) {
             throw err;
+        });
+        this._server.on('close', function (err) {
+            console.log("server close: ", close);
+        });
+        this._server.on('connection', function (socket) {
+            console.log("connection: ", socket.address());
         });
     };
     GateServer.prototype.start = function () {

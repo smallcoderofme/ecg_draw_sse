@@ -21,15 +21,23 @@ export class GateServer extends Server {
 
     private init() {
         this._server = new net.Server( ( socket: net.Socket ) => {
-            socket.end('goodbye\n');
+            // socket.end('goodbye\n');
             socket.on('data', (data) => {
-                console.log("socket data: ", data.toString());
+                console.log("socket data: ", data.toString().replace('\n', ''));
+            });
+            socket.on('close', (e: Event) => {
+                console.log("socket close: ", e);
             });
         });
         this._server.on('error', (err: Error) => {
             throw err;
         });
- 
+        this._server.on('close', (err: Event) => {
+            console.log("server close: ", close);
+        });
+        this._server.on('connection', ( socket: net.Socket ) => {
+            console.log("connection: ", socket.address(), );
+        });
     }
 
     public start() {
