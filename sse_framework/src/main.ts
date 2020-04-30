@@ -11,7 +11,7 @@
 
 import fs from 'fs';
 import { Global } from './typing';
-import { GateServer } from './gate/gate.server';
+import { GateServer } from './server/gate.server';
 
 var global: Global = { config: null, gate: undefined };
 function loadCONFIG() {
