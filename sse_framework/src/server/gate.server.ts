@@ -1,6 +1,7 @@
 'use strict';
 import net from 'net';
 import { Server } from '../typing';
+import { Buffer } from 'buffer';
 
 export class GateServer extends Server {
     private static _instance: GateServer;
@@ -24,6 +25,7 @@ export class GateServer extends Server {
             // socket.end('goodbye\n');
             socket.on('data', (data) => {
                 console.log("socket data: ", data.toString().replace('\n', ''));
+                socket.write(this.generatePack({commandId: "1001", data: "Hello"}));
             });
             socket.on('close', (e: Event) => {
                 console.log("socket close: ", e);
@@ -58,5 +60,9 @@ export class GateServer extends Server {
         this._server!.close(() => {
             console.log('closed gate server on', this._server!.address());
         });
+    }
+
+    private generatePack(data: any) {
+        return Buffer.from(data);
     }
 }

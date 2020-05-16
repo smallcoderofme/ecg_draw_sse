@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //     server.broadcast({status:"ok", message:"echo", commandId: counter.toString(), data: Date.now() });
 // }, 1000);
 var fs_1 = __importDefault(require("fs"));
-var gate_server_1 = require("./gate/gate.server");
+var gate_server_1 = require("./server/gate.server");
 var global = { config: null, gate: undefined };
 function loadCONFIG() {
     fs_1.default.readFile('config.json', 'utf8', function (err, data) {
