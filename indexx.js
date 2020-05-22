@@ -76,7 +76,7 @@ http.createServer((req, res) => {
     stop();
   });
   if (!port) {
-    initPort('COM5');
+    initPort('COM3');
   }
   res.setHeader("Access-Control-Allow-Origin", '*');
   var fileName = "." + req.url;
