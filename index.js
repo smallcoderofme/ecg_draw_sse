@@ -18,7 +18,7 @@ SerialPort.list().then(
   }),
   err => port_list.push(err)
 )
-const port = new SerialPort('COM5', 
+const port = new SerialPort('COM3', 
   { baudRate: 115200, 
     autoOpen:true }
 );
@@ -141,3 +141,11 @@ const port = new SerialPort('COM5',
 //       })
 //   }
 // }).listen(8844, "127.0.0.1");
+
+
+// http.createServer((req, res) => {
+//   req.on('close', function(e) {
+//     console.log("close", e);
+//   });
+//   res.setHeader("Access-Control-Allow-Origin", '*');
+// });

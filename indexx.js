@@ -49,7 +49,12 @@ function stop() {
 
 function readcallback() {
   var data = port.read();
+  if(!data) {
+    console.log("----------------------------- data:", data);
+    return;
+  }
   var hex = data.toString("hex");
+
   var index = hex.indexOf('aaaaf108');
   hex = hex.substr(index, hex.length-index);
   var result = hex.replace(/aaaaf108/g,'');
@@ -76,7 +81,7 @@ http.createServer((req, res) => {
     stop();
   });
   if (!port) {
-    initPort('COM3');
+    initPort('COM4');
   }
   res.setHeader("Access-Control-Allow-Origin", '*');
   var fileName = "." + req.url;
@@ -116,7 +121,6 @@ http.createServer((req, res) => {
         } else {
           res.end(JSON.stringify({"status": "error", "message":"所选的串口不存在。"}));
         }
-        
       })
   }
 }).listen(8844, "127.0.0.1");
