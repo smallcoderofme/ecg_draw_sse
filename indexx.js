@@ -84,8 +84,7 @@ http.createServer((req, res) => {
     initPort('COM4');
   }
   res.setHeader("Access-Control-Allow-Origin", '*');
-  var fileName = "." + req.url;
-  if (fileName === "./stream") {
+  if (fileName === "/stream") {
     res.writeHead(200, {
       "Content-Type":"text/event-stream",
       "Cache-Control":"no-cache, no-transform",
@@ -94,13 +93,13 @@ http.createServer((req, res) => {
     });
     start(res);
     // res.write("data: "+ "456465" + "\n\n", 'utf8');
-  } else if (req.method === "GET" && fileName === "./port_list") {
+  } else if (req.method === "GET" && fileName === "/port_list") {
       res.writeHead(200, {
         "Content-Type":"application/json",
         "Cache-Control":"no-cache"
       });
       res.end(JSON.stringify({list: port_list}), 'utf8');
-  } else if(req.method === "POST" && fileName === "./confirm_port") {
+  } else if(req.method === "POST" && fileName === "/confirm_port") {
   	  res.writeHead(200, {
         "Content-Type":"application/json",
         "Cache-Control":"no-cache"
